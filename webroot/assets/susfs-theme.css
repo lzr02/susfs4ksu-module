@@ -1,0 +1,639 @@
+/* ============================================================================
+   SUSFS WebUI - 主题覆盖层 (susfs-theme.css)
+   ----------------------------------------------------------------------------
+   纯 CSS，零外部依赖（不引入 Bootstrap / Tailwind / 字体文件 / 图片 / 动画库）。
+   本文件只负责「外观」，不包含任何功能逻辑：
+     - 不调用 ksu_susfs，不读写任何配置文件，不绑定任何按钮事件。
+     - 按钮的 id / class / onclick 绑定、元素显隐（hidden）、tab 切换逻辑全部保持原样。
+
+   加载顺序：必须放在打包样式 index-WyG3q1ly.css 之后（HTML 中后引入），
+   相同优先级下后加载者生效，因此可以覆盖打包样式。
+
+   设计基调：现代简洁（参考 Material Design 3 / iOS），深色为主，主色柔和蓝。
+   ========================================================================== */
+
+/* ---------------------------------------------------------------------------
+   1. 颜色与基础变量
+   --------------------------------------------------------------------------- */
+:root {
+	/* 深色模式（默认） */
+	--sx-bg: #1a1a1a;              /* 页面背景 */
+	--sx-surface: #232323;         /* 卡片表面 */
+	--sx-surface-2: #2b2b2b;       /* 输入框 / 次级表面 */
+	--sx-border: #383838;          /* 描边 */
+	--sx-text: #e0e0e0;            /* 正文 */
+	--sx-text-dim: #9e9e9e;        /* 次要文字 */
+	--sx-primary: #5aa9f0;         /* 主色：柔和蓝 */
+	--sx-primary-strong: #7bbcff;  /* 主色 hover */
+	--sx-success: #4ac48a;         /* 成功：柔和绿 */
+	--sx-danger: #e05a5a;          /* 危险 */
+	--sx-shadow: 0 1px 3px rgb(0 0 0 / 0.4), 0 1px 2px rgb(0 0 0 / 0.3);
+	--sx-radius: 12px;             /* 卡片圆角 */
+	--sx-radius-sm: 8px;           /* 控件圆角 */
+	color-scheme: dark;
+}
+
+/* 系统浅色偏好 → 浅色配色 */
+@media (prefers-color-scheme: light) {
+	:root {
+		--sx-bg: #f5f5f5;
+		--sx-surface: #ffffff;
+		--sx-surface-2: #eeeeee;
+		--sx-border: #dcdcdc;
+		--sx-text: #212121;
+		--sx-text-dim: #616161;
+		--sx-primary: #2f7fd6;
+		--sx-primary-strong: #1f6cbd;
+		--sx-success: #2e9e6b;
+		--sx-danger: #c94040;
+		--sx-shadow: 0 1px 3px rgb(0 0 0 / 0.12), 0 1px 2px rgb(0 0 0 / 0.08);
+		color-scheme: light;
+	}
+}
+
+/* ---------------------------------------------------------------------------
+   2. 字体：用系统无衬线字体替换装饰性手写字体
+   ---------------------------------------------------------------------------
+   原打包样式通过 @font-face 加载了两个装饰字体：
+     amongus  → Impostograph-Regular.ttf（涂鸦体）
+     amongus2 → AmaticSC-Regular / AmaticSC-Bold.ttf（极细手写体）
+   AmaticSC 字重极细且字面倾斜，正是「歪歪斜斜、看不清」的根因。
+   这里用同族名重新声明「加载源」，把字体族名映射到系统无衬线字体：
+     - 不需要改动打包 CSS，也不需要改动任何 HTML 的 class；
+     - 不下载任何字体文件（src 为 local()，只使用系统已安装字体）；
+     - 打包样式里 .font-amongus / .font-amongus2 的 font-family 声明保持不变，
+       由浏览器按「后声明的 @font-face 优先」解析到系统字体。
+   --------------------------------------------------------------------------- */
+@font-face {
+	font-family: amongus;
+	font-style: normal;
+	font-weight: 400;
+	font-display: swap;
+	src: local("PingFang SC"), local("Noto Sans CJK SC"), local("Microsoft YaHei"),
+		local("Segoe UI"), local("Roboto"), local("Helvetica Neue"), local("Arial");
+}
+
+@font-face {
+	font-family: amongus2;
+	font-style: normal;
+	font-weight: 400;
+	font-display: swap;
+	src: local("PingFang SC"), local("Noto Sans CJK SC"), local("Microsoft YaHei"),
+		local("Segoe UI"), local("Roboto"), local("Helvetica Neue"), local("Arial");
+}
+
+@font-face {
+	font-family: amongus2;
+	font-style: normal;
+	font-weight: 700;
+	font-display: swap;
+	src: local("PingFang SC"), local("Noto Sans CJK SC"), local("Microsoft YaHei"),
+		local("Segoe UI"), local("Roboto"), local("Helvetica Neue"), local("Arial");
+}
+
+/* 全局字体：系统默认无衬线字体栈，正文基准 15px / 行高 1.5 */
+html,
+body,
+body * {
+	font-family: system-ui, -apple-system, "PingFang SC", "Noto Sans CJK SC",
+		"Microsoft YaHei", sans-serif;
+}
+
+body {
+	font-size: 15px;
+	font-weight: 400; /* 覆盖 body 上的 font-bold：正文不再整体加粗 */
+	line-height: 1.5;
+	background-color: var(--sx-bg);
+	color: var(--sx-text);
+}
+
+/* 保留「等宽」语义的场景（路径、inode、时间戳等技术信息） */
+#kernel_version,
+#spoofed_kernel_version,
+#spoofed_kernel_build,
+textarea,
+input[type="text"] {
+	font-variant-numeric: tabular-nums;
+}
+
+/* 标题与强调：600 字重，比正文更清晰 */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: inherit;
+	font-weight: 600;
+	line-height: 1.35;
+	letter-spacing: 0;
+}
+
+/* 字号下限：正文 ≥ 14px。
+   原样式里 .text-xs(12px) / .text-sm(14px) 偏小，这里统一抬到 14px。
+   （.text-base 及以上为 16px+，本身已满足要求，不做改动，保留字号层级。）
+   注：打包器会把冲突的 text-* 类合并，故用「类名子串 + 独立类名」两种写法兜底。 */
+[class~="text-xs"],
+[class~="text-sm"],
+[class^="text-xs"],
+[class^="text-sm"],
+[class*=" text-xs"],
+[class*=" text-sm"] {
+	font-size: 14px !important;
+	line-height: 1.5 !important;
+}
+
+/* 小型内联标签（状态页 badge）：解除固定高度，避免字号变大后文字溢出 */
+.badge {
+	min-height: 1.5rem;
+	height: auto;
+	padding-top: 0.125rem;
+	padding-bottom: 0.125rem;
+	border-radius: 999px;
+	line-height: 1.4;
+}
+
+/* 取消全大写与夸张字距：中文没有大小写，全大写只影响英文，统一更整洁 */
+.uppercase {
+	text-transform: none !important;
+}
+
+.tracking-wider {
+	letter-spacing: 0 !important;
+}
+
+/* ---------------------------------------------------------------------------
+   3. 去除装饰：背景图 / 渐变动画 / 过渡 / 模糊
+   --------------------------------------------------------------------------- */
+
+/* 背景动画画布（Among Us 角色飘浮动画，由打包 JS 在 canvas 上绘制）。
+   说明：打包 JS 顶层执行了 getElementById("backgroundCanvas").getContext("2d")，
+   因此不能从 DOM 移除该元素（会抛错并中断整个脚本）。
+   这里只用 display:none 把它隐藏：画布不再绘制、不再显示，也不响应点击。
+   没有改动任何 JS。 */
+#backgroundCanvas {
+	display: none !important;
+}
+
+/* 去掉所有过渡与动画（仅保留加载指示器自身的转动，它表示「正在更新」的进度状态） */
+*,
+*::before,
+*::after {
+	transition: none !important;
+}
+
+/* 卡片上的 hover:scale-105 放大效果（去掉放大，保留 hover 反馈色） */
+div[class*="hover:scale-105"]:hover,
+div[class*="hover:scale-105"] {
+	--tw-scale-x: 1 !important;
+	--tw-scale-y: 1 !important;
+	transform: none !important;
+}
+
+/* 卡片里的装饰性装饰圆点（bg-white/5 + rounded-full + 负边距） */
+.grid > div > div[class*="rounded-full"] {
+	display: none !important;
+}
+
+/* 卡片渐变背景 → 统一纯色表面 */
+.bg-gradient-to-br {
+	background-image: none !important;
+}
+
+/* 去掉毛玻璃模糊（backdrop-blur-*） */
+[class*="backdrop-blur"] {
+	-webkit-backdrop-filter: none !important;
+	backdrop-filter: none !important;
+}
+
+/* --- 中性化 HTML 里遗留的装饰性工具类 -------------------------------------
+   说明：这些类原本服务于「多彩玻璃 + 描边」旧风格（bg-black / border-white /
+   bg-cyan-100/20 / from-* / to-* 等）。这里统一覆盖为设计系统里的表面色与描边色，
+   使外观一致，同时不改动 HTML 的 class（也就不会碰到任何功能绑定）。
+   ------------------------------------------------------------------------- */
+.bg-black,
+.bg-black\/20,
+.bg-cyan-100\/20,
+.bg-cyan-100\/30,
+[class*="dark:bg-black"] {
+	background-color: var(--sx-surface) !important;
+}
+
+/* 旧风格的白描边 → 设计系统描边（更细、更柔和） */
+.border-white {
+	border-color: var(--sx-border) !important;
+}
+
+/* 旧的 -2 宽描边收敛为 1px，避免卡片显得笨重 */
+.border-2 {
+	border-width: 1px !important;
+}
+
+/* 浅色模式下的旧青色底：统一成表面色 */
+@media (prefers-color-scheme: light) {
+	.stats .bg-cyan-100\/20,
+	.stats [class*="bg-cyan-100"] {
+		background-color: var(--sx-surface) !important;
+	}
+}
+
+/* 去掉弹窗遮罩的淡入动画 */
+.modal::backdrop {
+	animation: none !important;
+	background-color: rgb(0 0 0 / 0.6);
+}
+
+/* 去掉按钮按下的缩放动画 */
+.btn {
+	animation: none !important;
+}
+
+.btn:active:focus,
+.btn:active {
+	transform: none !important;
+}
+
+/* 去掉复选框勾选动画（勾选图形本身保留） */
+.checkbox[aria-checked="true"],
+.checkbox:indeterminate {
+	animation: none !important;
+}
+
+/* ---------------------------------------------------------------------------
+   4. 背景与容器
+   --------------------------------------------------------------------------- */
+body {
+	background-color: var(--sx-bg);
+	background-image: none;
+}
+
+/* 主内容区：不再需要层级压制画布，保持正常文档流内边距 */
+main {
+	position: relative;
+	z-index: 1;
+	padding-left: 4px;
+	padding-right: 4px;
+}
+
+/* ---------------------------------------------------------------------------
+   5. 卡片（原 .stats 容器）
+   --------------------------------------------------------------------------- */
+.stats {
+	background-color: var(--sx-surface) !important;
+	border: 1px solid var(--sx-border) !important;
+	border-radius: var(--sx-radius) !important;
+	box-shadow: var(--sx-shadow);
+	padding: 4px 6px;
+}
+
+/* 统计页四项指标卡（SUS 路径 / SUS 映射 / SUS 挂载 / 尝试卸载） */
+.grid > div[class*="rounded-lg"] {
+	background-color: var(--sx-surface) !important;
+	background-image: none !important;
+	border: 1px solid var(--sx-border) !important;
+	border-radius: var(--sx-radius) !important;
+	box-shadow: var(--sx-shadow);
+}
+
+.grid > div[class*="rounded-lg"]:hover {
+	border-color: var(--sx-primary) !important;
+}
+
+/* ---------------------------------------------------------------------------
+   6. 文字层级
+   --------------------------------------------------------------------------- */
+.stat-title,
+[class*="text-white/70"] {
+	color: var(--sx-text-dim) !important;
+}
+
+.text-white {
+	color: var(--sx-text) !important;
+}
+
+.text-indigo-300 {
+	color: var(--sx-primary) !important;
+}
+
+/* 内核版本、伪装值等技术信息用次要色，突出可操作的开关 */
+#kernel_version,
+#spoofed_kernel_version,
+#spoofed_kernel_build {
+	color: var(--sx-text-dim) !important;
+	word-break: break-word;
+}
+
+/* ---------------------------------------------------------------------------
+   7. 开关（toggle）与复选框（checkbox）
+   ---------------------------------------------------------------------------
+   打包样式用 currentColor + inset box-shadow 画滑块，颜色依赖主题变量且偏暗。
+   这里重写为明确的「轨道 + 圆形滑块」样式：
+     - 圆角、尺寸不变（仍为 3rem × 1.5rem）；
+     - 关闭=中性灰轨道，开启=柔和蓝轨道；
+     - 危险项（force_hide_lsposed 使用 toggle-error）保留红色轨道以作警示。
+   只改外观，不触碰 input 的 id / checked 属性 / change 事件。
+   --------------------------------------------------------------------------- */
+.toggle {
+	position: relative;
+	height: 1.5rem;
+	width: 3rem;
+	cursor: pointer;
+	border: 1px solid var(--sx-border) !important;
+	border-radius: 999px !important;
+	background-color: var(--sx-surface-2) !important;
+	background-image: none !important;
+	box-shadow: none !important;
+	-webkit-appearance: none;
+	appearance: none;
+}
+
+.toggle:checked,
+.toggle[aria-checked="true"] {
+	background-color: var(--sx-primary) !important;
+	border-color: var(--sx-primary) !important;
+}
+
+/* 圆形滑块 */
+.toggle::after {
+	content: "";
+	position: absolute;
+	top: 50%;
+	left: 2px;
+	height: 1.125rem;
+	width: 1.125rem;
+	border-radius: 50%;
+	background-color: #ffffff;
+	transform: translateY(-50%);
+	box-shadow: 0 1px 2px rgb(0 0 0 / 0.35);
+}
+
+.toggle:checked::after,
+.toggle[aria-checked="true"]::after {
+	left: calc(100% - 1.125rem - 2px);
+}
+
+.toggle:hover {
+	border-color: var(--sx-primary) !important;
+}
+
+.toggle:focus-visible {
+	outline: 2px solid var(--sx-primary) !important;
+	outline-offset: 2px;
+}
+
+/* 危险开关（Dex2oat 强制隐藏等）保持红色语义 */
+.toggle-error:checked,
+.toggle-error[aria-checked="true"] {
+	background-color: var(--sx-danger) !important;
+	border-color: var(--sx-danger) !important;
+}
+
+.toggle:disabled {
+	opacity: 0.4;
+	cursor: not-allowed;
+}
+
+/* 复选框：选中用主色 */
+.checkbox {
+	border: 1px solid var(--sx-border) !important;
+	border-radius: 5px !important;
+	background-color: var(--sx-surface-2) !important;
+}
+
+.checkbox-primary {
+	--chkbg: var(--sx-primary) !important;
+	--chkfg: #ffffff !important;
+	border-color: var(--sx-border) !important;
+}
+
+.checkbox:checked,
+.checkbox[aria-checked="true"] {
+	background-color: var(--sx-primary) !important;
+	border-color: var(--sx-primary) !important;
+}
+
+/* ---------------------------------------------------------------------------
+   8. 按钮
+   --------------------------------------------------------------------------- */
+.btn {
+	border-radius: var(--sx-radius-sm) !important;
+	font-size: 14px !important;
+	font-weight: 500 !important;
+	letter-spacing: 0;
+	box-shadow: none !important;
+	/* 原样式固定 3rem 高，某些按钮文字换行会被裁切；改为最小高度 + 自适应 */
+	min-height: 2.75rem !important;
+	height: auto !important;
+	padding: 0.5rem 1rem !important;
+	line-height: 1.4 !important;
+}
+
+/* 实心主按钮（确认 / Make it SuS / 更新） */
+.btn-primary {
+	background-color: var(--sx-primary) !important;
+	border-color: var(--sx-primary) !important;
+	color: #0d0d0d !important;
+}
+
+.btn-primary:hover {
+	background-color: var(--sx-primary-strong) !important;
+	border-color: var(--sx-primary-strong) !important;
+}
+
+.btn-secondary,
+.btn-accent,
+.btn-success {
+	background-color: var(--sx-surface-2) !important;
+	border-color: var(--sx-border) !important;
+	color: var(--sx-text) !important;
+}
+
+.btn-secondary:hover,
+.btn-accent:hover,
+.btn-success:hover {
+	border-color: var(--sx-primary) !important;
+	color: var(--sx-primary) !important;
+}
+
+.btn-error {
+	background-color: var(--sx-danger) !important;
+	border-color: var(--sx-danger) !important;
+	color: #ffffff !important;
+}
+
+.btn-error:hover {
+	background-color: #ef6b6b !important;
+	border-color: #ef6b6b !important;
+}
+
+/* 描边按钮（导航 / 次级操作）：中性描边，hover 时描边与文字变主色 */
+.btn-outline {
+	background-color: transparent !important;
+	border: 1px solid var(--sx-border) !important;
+	color: var(--sx-text) !important;
+}
+
+.btn-outline:hover {
+	background-color: color-mix(in srgb, var(--sx-primary) 14%, transparent) !important;
+	border-color: var(--sx-primary) !important;
+	color: var(--sx-primary) !important;
+}
+
+/* 危险区按钮保留颜色语义（导入=蓝、导出=绿、重置=红） */
+#susfs_import {
+	border-color: var(--sx-primary) !important;
+}
+
+#susfs_import:hover {
+	background-color: color-mix(in srgb, var(--sx-primary) 14%, transparent) !important;
+	color: var(--sx-primary) !important;
+}
+
+#susfs_export {
+	border-color: var(--sx-success) !important;
+}
+
+#susfs_export:hover {
+	background-color: color-mix(in srgb, var(--sx-success) 14%, transparent) !important;
+	color: var(--sx-success) !important;
+}
+
+#susfs_reset {
+	border-color: var(--sx-danger) !important;
+}
+
+#susfs_reset:hover {
+	background-color: color-mix(in srgb, var(--sx-danger) 14%, transparent) !important;
+	color: var(--sx-danger) !important;
+}
+
+.btn:disabled {
+	opacity: 0.5;
+}
+
+/* 包裹按钮的链接：去掉默认链接色，避免描边按钮 hover 变色 */
+a > .btn {
+	text-decoration: none;
+}
+
+/* ---------------------------------------------------------------------------
+   9. 表单控件
+   --------------------------------------------------------------------------- */
+.input,
+.select,
+.textarea {
+	background-color: var(--sx-surface-2) !important;
+	border: 1px solid var(--sx-border) !important;
+	border-radius: var(--sx-radius-sm) !important;
+	color: var(--sx-text) !important;
+	font-size: 14px !important;
+}
+
+.input::placeholder,
+.textarea::placeholder {
+	color: var(--sx-text-dim) !important;
+	opacity: 1;
+}
+
+.input:focus-within,
+.select:focus,
+.textarea:focus {
+	border-color: var(--sx-primary) !important;
+	outline: 2px solid color-mix(in srgb, var(--sx-primary) 35%, transparent) !important;
+	outline-offset: 0 !important;
+	box-shadow: none !important;
+}
+
+/* 下拉选项：局部浏览器差异较大，显式指定底色与文字色 */
+.select option {
+	background-color: var(--sx-surface) !important;
+	color: var(--sx-text) !important;
+}
+
+/* 滑块（隐藏级别 1-5） */
+.range {
+	--range-shdw: var(--sx-primary);
+	background-color: transparent !important;
+}
+
+.range::-webkit-slider-runnable-track {
+	background-color: var(--sx-surface-2) !important;
+}
+
+.range::-moz-range-track {
+	background-color: var(--sx-surface-2) !important;
+}
+
+.range::-webkit-slider-thumb {
+	background-color: var(--sx-primary) !important;
+	box-shadow: none !important;
+}
+
+.range::-moz-range-thumb {
+	background-color: var(--sx-primary) !important;
+	box-shadow: none !important;
+}
+
+/* ---------------------------------------------------------------------------
+   10. 弹窗
+   --------------------------------------------------------------------------- */
+.modal-box {
+	background-color: var(--sx-surface) !important;
+	border: 1px solid var(--sx-border) !important;
+	border-radius: var(--sx-radius) !important;
+	box-shadow: 0 10px 30px rgb(0 0 0 / 0.45) !important;
+	padding: 1.25rem !important;
+}
+
+.modal-action {
+	gap: 0.5rem;
+	flex-wrap: wrap;
+}
+
+/* 未支持内核 / 更新提示弹窗里的插图与白色描边 */
+.modal-box img {
+	max-width: 100%;
+	height: auto;
+}
+
+/* ---------------------------------------------------------------------------
+   11. 状态页 badge 语义色
+   --------------------------------------------------------------------------- */
+.badge-warning {
+	background-color: var(--sx-surface-2) !important;
+	color: var(--sx-text-dim) !important;
+	border: 1px solid var(--sx-border) !important;
+}
+
+.badge-success {
+	background-color: color-mix(in srgb, var(--sx-success) 20%, transparent) !important;
+	color: var(--sx-success) !important;
+	border: 1px solid var(--sx-success) !important;
+}
+
+.badge-error {
+	background-color: color-mix(in srgb, var(--sx-danger) 20%, transparent) !important;
+	color: var(--sx-danger) !important;
+	border: 1px solid var(--sx-danger) !important;
+}
+
+/* ---------------------------------------------------------------------------
+   12. 滚动条（仅外观）
+   --------------------------------------------------------------------------- */
+::-webkit-scrollbar {
+	width: 8px;
+	height: 8px;
+}
+
+::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: var(--sx-border);
+	border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background-color: var(--sx-text-dim);
+}
