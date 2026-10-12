@@ -130,4 +130,26 @@
   <string id="import_config_label">Import Config</string>
   <string id="import_warning_label">Importing a config will overwrite your current settings. Are you sure you want to proceed?</string>
   <string id="import_backup_label">Backup Current Config</string>
+
+  <!-- 第二轮补充：链接按钮、SUS_KSTAT 字段名、贡献者角色 -->
+  <string id="make_it_sus_label">Make it SuS</string>
+  <string id="susfs_repo_label">SUSFS Repo</string>
+  <string id="gki_kernel_label">GKI Kernel With SUSFS</string>
+  <string id="stat_label_inode">inode</string>
+  <string id="stat_label_device">device</string>
+  <string id="stat_label_nlink">nlink</string>
+  <string id="stat_label_size">size</string>
+  <string id="stat_label_atime">atime</string>
+  <string id="stat_label_mtime">mtime</string>
+  <string id="stat_label_ctime">ctime</string>
+  <string id="stat_label_atime_nsec">atime_nsec</string>
+  <string id="stat_label_mtime_nsec">mtime_nsec</string>
+  <string id="stat_label_ctime_nsec">ctime_nsec</string>
+  <string id="stat_label_blocks">blocks</string>
+  <string id="stat_label_blksize">blksize</string>
+  <string id="role_susfs_dev_label">susfs4ksu Developer</string>
+  <string id="role_module_dev_label">Module/WebUI Developer</string>
+  <string id="adapted_from_label">This project is a modified fork of sidex15/susfs4ksu-module. Kernel-facing logic and scripts come from upstream.</string>
+  <string id="upstream_repo_label">Upstream: sidex15/susfs4ksu-module</string>
+  <string id="fork_repo_label">This fork: lzr02/susfs4ksu-module</string>
 </language>

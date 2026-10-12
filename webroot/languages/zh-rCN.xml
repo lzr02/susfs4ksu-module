@@ -130,4 +130,26 @@
   <string id="import_config_label">导入配置</string>
   <string id="import_warning_label">导入配置会覆盖当前设置。确定要继续吗？</string>
   <string id="import_backup_label">先备份当前配置</string>
+
+  <!-- 第二轮补充：链接按钮、SUS_KSTAT 字段名、贡献者角色 -->
+  <string id="make_it_sus_label">应用伪装</string>
+  <string id="susfs_repo_label">SUSFS 仓库</string>
+  <string id="gki_kernel_label">已集成 SUSFS 的 GKI 内核</string>
+  <string id="stat_label_inode">inode（索引节点号）</string>
+  <string id="stat_label_device">device（设备号）</string>
+  <string id="stat_label_nlink">nlink（硬链接数）</string>
+  <string id="stat_label_size">size（文件大小）</string>
+  <string id="stat_label_atime">atime（访问时间）</string>
+  <string id="stat_label_mtime">mtime（修改时间）</string>
+  <string id="stat_label_ctime">ctime（状态变更时间）</string>
+  <string id="stat_label_atime_nsec">atime_nsec（访问时间纳秒）</string>
+  <string id="stat_label_mtime_nsec">mtime_nsec（修改时间纳秒）</string>
+  <string id="stat_label_ctime_nsec">ctime_nsec（状态变更时间纳秒）</string>
+  <string id="stat_label_blocks">blocks（占用块数）</string>
+  <string id="stat_label_blksize">blksize（块大小）</string>
+  <string id="role_susfs_dev_label">susfs4ksu 开发者</string>
+  <string id="role_module_dev_label">模块 / WebUI 开发者</string>
+  <string id="adapted_from_label">本项目基于 sidex15/susfs4ksu-module 改编，内核相关逻辑与脚本均来自上游。</string>
+  <string id="upstream_repo_label">上游仓库：sidex15/susfs4ksu-module</string>
+  <string id="fork_repo_label">本 Fork：lzr02/susfs4ksu-module</string>
 </language>
