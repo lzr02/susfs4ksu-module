@@ -4,7 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Document</title>
+	<title>Document</title>
   <script type="module" crossorigin src="/assets/fade-4ApaDT9x.js"></script>
   <script type="module" crossorigin src="/assets/i18n-CuIujUHf.js"></script>
   <script type="module" crossorigin src="/assets/index-BS9hEn4H.js"></script>
@@ -22,7 +22,7 @@
                             <div class="flex justify-center items-center flex-col space-y-3 text-lg font-medium leading-6">
                                 <img src="/assets/red-DsgSinuJ.png" class="w-30 h-40"/>
                                 <h3 class="text-white text-3xl">Simon Punk</h3>
-                                <p class="text-indigo-300 text-xl text-center" style="white-space: pre;">susfs4ksu Developer</p>
+                                <p class="text-indigo-300 text-xl text-center" style="white-space: pre;" data-i18n="role_susfs_dev_label">susfs4ksu Developer</p>
                                 <div class="flex justify-center mt-5 space-x-5">
                                     <a onclick="ksu.exec(`am start -a android.intent.action.VIEW -d https://gitlab.com/simonpunk/susfs4ksu`)" target="_blank" rel="noopener noreferrer"
                                         class="inline-block text-gray-400"><span class="sr-only">Gitlab</span><svg class="w-6 h-6 text-gray-400 hover:text-gray-100" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -36,7 +36,7 @@
                             <div class="flex justify-center items-center flex-col space-y-3 text-lg font-medium leading-6">
                                 <img src="/assets/black-CWwxUpmx.png" class="w-30 h-40"/>
                                 <h3 class="text-white text-3xl">sidex15</h3>
-                                <p class="text-indigo-300 text-xl text-center" style="white-space: pre;">Module/WebUI Developer</p>
+                                <p class="text-indigo-300 text-xl text-center" style="white-space: pre;" data-i18n="role_module_dev_label">Module/WebUI Developer</p>
                                 <div class="flex justify-center mt-5 space-x-5">
                                     <a onclick="ksu.exec(`am start -a android.intent.action.VIEW -d https://github.com/sidex15`)"  target="_blank" rel="noopener noreferrer"
                                         class="inline-block text-gray-400"><span class="sr-only">GitHub</span><svg stroke="currentColor"
@@ -61,6 +61,16 @@
                     <div class="flex justify-center w-full">
                         <div id="translators-container" class="flex gap-7 overflow-x-auto pb-4 pl-2 pr-2 max-w-full hide-scrollbar">
                         </div>         
+                    </div>
+                    <!-- 本 Fork 的来源说明（点击在浏览器中打开上游仓库） -->
+                    <div class="max-w-2xl px-4 pb-2 text-center">
+                        <p class="text-base leading-relaxed" style="color: var(--sx-text-dim);" data-i18n="adapted_from_label">本项目基于 sidex15/susfs4ksu-module 改编，内核相关逻辑与脚本均来自上游。</p>
+                        <p class="text-sm mt-2" role="link" style="color: var(--sx-primary); cursor: pointer;"
+                           onclick="ksu.exec(`am start -a android.intent.action.VIEW -d https://github.com/sidex15/susfs4ksu-module`)"
+                           data-i18n="upstream_repo_label">上游仓库：sidex15/susfs4ksu-module</p>
+                        <p class="text-sm mt-1" role="link" style="color: var(--sx-primary); cursor: pointer;"
+                           onclick="ksu.exec(`am start -a android.intent.action.VIEW -d https://github.com/lzr02/susfs4ksu-module`)"
+                           data-i18n="fork_repo_label">本 Fork：lzr02/susfs4ksu-module</p>
                     </div>
                 </div>
                 <a href="index.html" class="text-white"><button class="btn btn-outline text-xl bg-cyan-100/30 dark:bg-black/30 backdrop-blur-sm text-white border-white" data-i18n="main_menu_label">Back to main menu</button></a>

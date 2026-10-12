@@ -35,13 +35,13 @@
                     <div class="grid grid-cols-2 gap-4">
                         <div class="form-control">
                             <label class="label">
-                                <span class="text-sm font-bold">inode</span>
+                                <span class="text-sm font-bold" data-i18n="stat_label_inode">inode（索引节点号）</span>
                             </label>
                             <input type="text" id="kstat_ino_input" class="input input-bordered" placeholder="1234" />
                         </div>
                         <div class="form-control">
                             <label class="label">
-                                <span class="text-sm font-bold">device</span>
+                                <span class="text-sm font-bold" data-i18n="stat_label_device">device（设备号）</span>
                             </label>
                             <input type="text" id="kstat_dev_input" class="input input-bordered" placeholder="1234" />
                         </div>
@@ -49,13 +49,13 @@
                     <div class="grid grid-cols-2 gap-4">
                         <div class="form-control">
                             <label class="label">
-                                <span class="text-sm font-bold">nlink</span>
+                                <span class="text-sm font-bold" data-i18n="stat_label_nlink">nlink（硬链接数）</span>
                             </label>
                             <input type="text" id="kstat_nlink_input" class="input input-bordered" placeholder="2" />
                         </div>
                         <div class="form-control">
                             <label class="label">
-                                <span class="text-sm font-bold">size</span>
+                                <span class="text-sm font-bold" data-i18n="stat_label_size">size（文件大小）</span>
                             </label>
                             <input type="text" id="kstat_size_input" class="input input-bordered" placeholder="223344" />
                         </div>
@@ -63,19 +63,19 @@
                     <div class="grid grid-cols-3 gap-4">
                         <div class="form-control">
                             <label class="label">
-                                <span class="text-sm font-bold">atime</span>
+                                <span class="text-sm font-bold" data-i18n="stat_label_atime">atime（访问时间）</span>
                             </label>
                             <input type="text" id="kstat_atime_input" class="input input-bordered" placeholder="1712592355" />
                         </div>
                         <div class="form-control">
                             <label class="label">
-                                <span class="text-sm font-bold">mtime</span>
+                                <span class="text-sm font-bold" data-i18n="stat_label_mtime">mtime（修改时间）</span>
                             </label>
                             <input type="text" id="kstat_mtime_input" class="input input-bordered" placeholder="1712592355" />
                         </div>
                         <div class="form-control">
                             <label class="label">
-                                <span class="text-sm font-bold">ctime</span>
+                                <span class="text-sm font-bold" data-i18n="stat_label_ctime">ctime（状态变更时间）</span>
                             </label>
                             <input type="text" id="kstat_ctime_input" class="input input-bordered" placeholder="1712592355" />
                         </div>
@@ -83,19 +83,19 @@
                     <div class="grid grid-cols-3 gap-4">
                         <div class="form-control">
                             <label class="label">
-                                <span class="text-sm font-bold">atime_nsec</span>
+                                <span class="text-sm font-bold" data-i18n="stat_label_atime_nsec">atime_nsec（访问时间纳秒）</span>
                             </label>
                             <input type="text" id="kstat_atime_nsec_input" class="input input-bordered" placeholder="0" />
                         </div>
                         <div class="form-control">
                             <label class="label">
-                                <span class="text-sm font-bold">mtime_nsec</span>
+                                <span class="text-sm font-bold" data-i18n="stat_label_mtime_nsec">mtime_nsec（修改时间纳秒）</span>
                             </label>
                             <input type="text" id="kstat_mtime_nsec_input" class="input input-bordered" placeholder="0" />
                         </div>
                         <div class="form-control">
                             <label class="label">
-                                <span class="text-sm font-bold">ctime_nsec</span>
+                                <span class="text-sm font-bold" data-i18n="stat_label_ctime_nsec">ctime_nsec（状态变更时间纳秒）</span>
                             </label>
                             <input type="text" id="kstat_ctime_nsec_input" class="input input-bordered" placeholder="0" />
                         </div>
@@ -103,13 +103,13 @@
                     <div class="grid grid-cols-2 gap-4">
                         <div class="form-control">
                             <label class="label">
-                                <span class="text-sm font-bold">blocks</span>
+                                <span class="text-sm font-bold" data-i18n="stat_label_blocks">blocks（占用块数）</span>
                             </label>
                             <input type="text" id="kstat_blocks_input" class="input input-bordered" placeholder="16" />
                         </div>
                         <div class="form-control">
                             <label class="label">
-                                <span class="text-sm font-bold">blksize</span>
+                                <span class="text-sm font-bold" data-i18n="stat_label_blksize">blksize（块大小）</span>
                             </label>
                             <input type="text" id="kstat_blksize_input" class="input input-bordered" placeholder="512" />
                         </div>
@@ -117,7 +117,7 @@
                 </div>
                 <div class="modal-action mt-6">
                     <button class="btn btn-outline" onclick="document.getElementById('kstat_edit_modal').close()" data-i18n="cancel_label">Cancel</button>
-                    <button class="btn btn-primary" id="save_kstat_entry">Make it SuS</button>
+                    <button class="btn btn-primary" id="save_kstat_entry" data-i18n="make_it_sus_label">Make it SuS</button>
                 </div>
             </div>
             <form method="dialog" class="modal-backdrop">
@@ -255,7 +255,7 @@
                     </div>
                     <div class="stat flex flex-col justify-center items-center p-0">
                         <textarea class="textarea min-w-full font-sans h-48 leading-normal font-normal" placeholder="Press Load" id="custom_feature_textarea"></textarea>
-                        <button class="btn btn-outline w-24 mt-2 text-base font-normal" id="save_custom_feature">Make it SuS</button>
+                        <button class="btn btn-outline w-24 mt-2 text-base font-normal" id="save_custom_feature" data-i18n="make_it_sus_label">Make it SuS</button>
                     </div>
                 </div>
                 <div class="stats flex flex-col mt-5 p-4 min-w-full sm:min-w-[400px] max-w-full overflow-hidden" id="custom_kstat_section">

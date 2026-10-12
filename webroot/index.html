@@ -21,8 +21,8 @@
 		  <h3 class="text-lg font-bold text-center" data-i18n="susfs_error_label">NUH UH! Unsupported Kernel!</h3>
 		  <p class="py-4 text-center font-normal" data-i18n="susfs_error_desc">WebUI Access Denied! Make sure you're on a SuSFS patched kernel!</p>
 		  <div class="flex flex-row justify-center items-center gap-2">
-		  <button class="btn" onclick="ksu.exec(`am start -a android.intent.action.VIEW -d https://gitlab.com/simonpunk/susfs4ksu`)">SUSFS Repo</button>
-		  <button class="btn" onclick="ksu.exec(`am start -a android.intent.action.VIEW -d https://github.com/WildKernels`)">GKI Kernel With SUSFS</button>
+		  <button class="btn" data-i18n="susfs_repo_label" onclick="ksu.exec(`am start -a android.intent.action.VIEW -d https://gitlab.com/simonpunk/susfs4ksu`)">SUSFS Repo</button>
+		  <button class="btn" data-i18n="gki_kernel_label" onclick="ksu.exec(`am start -a android.intent.action.VIEW -d https://github.com/WildKernels`)">GKI Kernel With SUSFS</button>
 		  </div>
 		</div>
 	</dialog>
@@ -268,7 +268,7 @@
 							</label>
 						</div>
 						<div class="flex flex-row gap-4">
-						<button class="btn btn-md btn-outline w-24 mt-2 border-white text-white text-sm font-normal" id="set_uname">Make it SuS</button>
+						<button class="btn btn-md btn-outline w-24 mt-2 border-white text-white text-sm font-normal" id="set_uname" data-i18n="make_it_sus_label">Make it SuS</button>
 						<button class="btn btn-md btn-outline w-auto mt-2 border-white text-white text-sm font-normal" id="set_stock_kernel_build_date" data-i18n="set_stock_kernel_build_date_label">Set Stock Kernel Build Date</button>
 						</div>
 					</div>
