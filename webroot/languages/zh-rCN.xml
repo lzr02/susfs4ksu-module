@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <language>
   <!-- General -->
-  <string id="app_title">WebUI菜单</string>
-  <string id="warning_label">警告！</string>
+  <string id="app_title">WebUI 菜单</string>
+  <string id="warning_label">警告</string>
   <string id="cancel_label">取消</string>
   <string id="confirm_label">确认</string>
   <string id="about_label">关于</string>
   <string id="main_menu_label">主菜单</string>
   <string id="load_label">加载</string>
-  <string id="edit_label">编辑使用</string>
+  <string id="edit_label">用其他应用编辑</string>
   <string id="enabled_label">已启用</string>
   <string id="disabled_label">已禁用</string>
   <string id="deprecated_label">已弃用</string>
@@ -16,100 +16,118 @@
   <string id="help_label">帮助</string>
   <string id="send_logs_label">发送日志</string>
   <string id="export_config_label">导出配置</string>
-  <string id="reset_config_label">重置所有配置</string>
+  <string id="reset_config_label">重置全部配置</string>
+  <string id="close_label">关闭</string>
 
   <!-- SUSFS Not supported error-->
-  <string id="susfs_error_label">错误！不支持的内核！</string>
-  <string id="susfs_error_desc">WebUI访问被拒绝！请确保您使用的是SuSFS补丁内核！</string>
+  <string id="susfs_error_label">不支持的内核</string>
+  <string id="susfs_error_desc">无法访问 WebUI：请确认当前内核已集成 SUSFS 补丁。</string>
 
   <!-- SUSFS Update Dialog -->
-  <string id="susfs_update_label">SUSFS 用户空间更新！</string>
-  <string id="susfs_update_desc">您的 SUSFS 用户空间二进制文件有可用更新！</string>
-  <string id="susfs_update2_desc">请更新至最新版本，以确保与模块和 WebUI 的兼容性。</string>
-  <string id="susfs_updating_label">正在更新...</string>
+  <string id="susfs_update_label">SUSFS 用户空间程序有更新</string>
+  <string id="susfs_update_desc">检测到 SUSFS 用户空间二进制文件有可用更新。</string>
+  <string id="susfs_update2_desc">请更新到最新版本，以保证与模块和 WebUI 的兼容性。</string>
+  <string id="susfs_updating_label">正在更新…</string>
   <string id="skip_btn_label">跳过</string>
   <string id="update_btn_label">更新</string>
 
   <!-- Home Page -->
   <string id="kernel_version_label">内核版本</string>
-  <string id="sus_path_label">SUS路径</string>
-  <string id="sus_map_label">SUS映射</string>
-  <string id="sus_mount_label">SUS挂载</string>
+  <string id="sus_path_label">SUS 路径</string>
+  <string id="sus_map_label">SUS 映射</string>
+  <string id="sus_mount_label">SUS 挂载</string>
   <string id="try_umount_label">尝试卸载</string>
-  <string id="susfs_settings_label">自定义SUSFS设置</string>
-  <string id="susfs_kernel_status_label">SUSFS内核状态</string>
+  <string id="susfs_settings_label">自定义 SUSFS 设置</string>
+  <string id="susfs_kernel_status_label">SUSFS 内核状态</string>
 
   <!-- Status Page -->
   <string id="kernel_features_label">内核功能状态</string>
-  <string id="sus_path_feature_label">SUS路径支持</string>
-  <string id="sus_map_feature_label">SUS映射支持</string>
-  <string id="sus_mount_feature_label">SUS挂载支持</string>
-  <string id="sus_kstat_feature_label">SUS 内核统计支持</string>
+  <string id="sus_path_feature_label">SUS 路径支持</string>
+  <string id="sus_map_feature_label">SUS 映射支持</string>
+  <string id="sus_mount_feature_label">SUS 挂载支持</string>
+  <string id="sus_kstat_feature_label">SUS 内核统计（kstat）支持</string>
   <string id="try_umount_feature_label">尝试卸载支持</string>
-  <string id="spoof_uname_feature_label">伪装Uname支持</string>
-  <string id="spoof_cmdline_feature_label">伪装Cmdline/Bootconfig</string>
+  <string id="spoof_uname_feature_label">伪装 Uname 支持</string>
+  <string id="spoof_cmdline_feature_label">伪装 Cmdline / Bootconfig 支持</string>
   <string id="open_redirect_feature_label">开放重定向支持</string>
   <string id="enable_log_feature_label">日志记录支持</string>
-  <string id="auto_default_mount_feature_label">自动默认挂载</string>
-  <string id="auto_bind_mount_feature_label">自动绑定挂载</string>
-  <string id="auto_try_umount_bind_feature_label">自动尝试卸载绑定</string>
-  <string id="hide_symbols_feature_label">隐藏KSU SUSFS符号</string>
-  <string id="magic_mount_feature_label">魔法挂载支持</string>
-  <string id="overlayfs_auto_kstat_feature_label">OverlayFS自动内核统计支持</string>
+  <string id="auto_default_mount_feature_label">自动隐藏默认挂载</string>
+  <string id="auto_bind_mount_feature_label">自动隐藏绑定挂载</string>
+  <string id="auto_try_umount_bind_feature_label">自动尝试卸载绑定挂载</string>
+  <string id="hide_symbols_feature_label">隐藏 KSU SUSFS 符号</string>
+  <string id="magic_mount_feature_label">Magic Mount 支持</string>
+  <string id="overlayfs_auto_kstat_feature_label">OverlayFS 自动 kstat 支持</string>
 
   <!-- Settings -->
-  <string id="susfs_log_label">SUSFS日志</string>
-  <string id="sus_su_1_label">SUS SU处于模式1</string>
+  <string id="susfs_log_label">SUSFS 日志</string>
+  <string id="sus_su_1_label">SUS SU 处于模式 1</string>
   <string id="sus_su_label">SUS SU</string>
-  <string id="sus_su_boot_label">开机时启动SUS SU</string>
+  <string id="sus_su_boot_label">开机时启动 SUS SU</string>
   <string id="auto_hide_label">自动隐藏设置</string>
   <string id="default_mounts_label">自动隐藏默认挂载</string>
   <string id="bind_mounts_label">自动隐藏绑定挂载</string>
   <string id="try_umount_bind_label">自动尝试卸载绑定挂载</string>
   <string id="auto_try_umount_label">自动尝试卸载（用户空间）</string>
-  <string id="skip_legit_mounts_label">Skip Legit Mounts</string>
-  <string id="hide_sus_mnts_for_all_or_non_su_procs_label">对所有进程隐藏sus_mounts</string>
-  <string id="turn_off_after_boot_completed_label">启动完成后关闭</string>
-  <string id="zygote_try_umount_label">为zygote系统进程尝试卸载</string>
-  <string id="umount_for_zygote_iso_service_label">为zygote隔离服务尝试卸载</string>
-  <string id="kernel_uname_label">内核Uname</string>
-  <string id="spoof_kernel_version_label">伪装内核名称</string>
-  <string id="spoofed_kernel_version_label">伪装的内核名称</string>
+  <string id="skip_legit_mounts_label">跳过合法挂载</string>
+  <string id="hide_sus_mnts_for_all_or_non_su_procs_label">对所有进程 / 非 SU 进程隐藏 SUS 挂载</string>
+  <string id="turn_off_after_boot_completed_label">开机完成后关闭</string>
+  <string id="zygote_try_umount_label">对 zygote 系统进程尝试卸载</string>
+  <string id="umount_for_zygote_iso_service_label">对 zygote 隔离服务尝试卸载</string>
+  <string id="kernel_uname_label">内核 Uname</string>
+  <string id="spoof_kernel_version_label">伪装内核版本</string>
+  <string id="spoofed_kernel_version_label">当前伪装的内核版本</string>
   <string id="spoof_kernel_build_label">伪装构建日期</string>
-  <string id="spoofed_kernel_build_label">伪装的构建日期</string>
+  <string id="spoofed_kernel_build_label">当前伪装的构建日期</string>
   <string id="spoof_on_boot_label">开机时伪装</string>
-  <string id="post_fs_data_label">在post-fs-data阶段执行（伪装效果更好）</string>
-  <string id="uname_warning_label2">如果伪装设置不正确，开启此选项可能导致设备变砖或系统不稳定。您确定要启用 post-fs-data 阶段执行吗？</string>
-  <string id="reset_warning_label">这将把所有配置重置为默认值。您确定要继续吗？</string>
+  <string id="post_fs_data_label">在 post-fs-data 阶段执行（伪装效果更好）</string>
+  <string id="uname_warning_label2">若伪装设置不当，开启此项可能导致无法开机或系统不稳定。确定要启用 post-fs-data 阶段执行吗？</string>
+  <string id="reset_warning_label">这会把所有配置恢复为默认值。确定要继续吗？</string>
+  <string id="danger_zone_label">危险区</string>
 
   <!-- Custom -->
   <string id="custom_settings_label">自定义设置</string>
-  <string id="hide_paths_label">隐藏自定义ROM设置</string>
-  <string id="hide_custom_rom_label">隐藏自定义ROM路径</string>
+  <string id="hide_paths_label">自定义 ROM 隐藏设置</string>
+  <string id="hide_custom_rom_label">隐藏自定义 ROM 路径</string>
   <string id="hide_level_label">隐藏级别</string>
-  <string id="hide_custom_rom_desc1">排除 .apk, .jar, .odex, .vdex, .so, .rc 和 /vendor/bin/hw/ 文件</string>
-  <string id="hide_custom_rom_desc2">排除 .apk, .jar, .odex, .vdex, .so 和 /vendor/bin/hw/ 文件</string>
-  <string id="hide_custom_rom_desc3">排除 .apk, .jar, .odex, .vdex 和 /vendor/bin/hw/ 文件</string>
-  <string id="hide_custom_rom_desc4">排除 .apk, .jar 和 /vendor/bin/hw/ 文件</string>
-  <string id="hide_custom_rom_desc5">隐藏所有自定义ROM路径 ⚠️高风险，可能导致问题！</string>
+  <string id="hide_custom_rom_desc1">排除 .apk、.jar、.odex、.vdex、.so、.rc 以及 /vendor/bin/hw/ 下的文件</string>
+  <string id="hide_custom_rom_desc2">排除 .apk、.jar、.odex、.vdex、.so 以及 /vendor/bin/hw/ 下的文件</string>
+  <string id="hide_custom_rom_desc3">排除 .apk、.jar、.odex、.vdex 以及 /vendor/bin/hw/ 下的文件</string>
+  <string id="hide_custom_rom_desc4">排除 .apk、.jar 以及 /vendor/bin/hw/ 下的文件</string>
+  <string id="hide_custom_rom_desc5">隐藏所有自定义 ROM 路径（有风险，可能导致异常）</string>
   <string id="hide_vendor_sepolicy_label">隐藏 Vendor SEPolicy</string>
   <string id="hide_compat_matrix_label">隐藏 Compat Matrix</string>
   <string id="fake_service_list_label">伪装 Service List</string>
   <string id="hide_gapps_label">隐藏 GApps</string>
-  <string id="hide_revanced_label">隐藏 Revanced (YT/YTM)</string>
+  <string id="hide_revanced_label">隐藏 Revanced（YouTube / YouTube Music）</string>
   <string id="spoof_cmdline_label">伪装 Cmdline</string>
   <string id="hide_ksu_loop_label">隐藏 KSU Loop</string>
   <string id="force_hide_dex2oat_label">强制隐藏 Dex2oat 挂载</string>
-  <string id="avc_log_spoofing_label">AVC日志欺骗</string>
-  <string id="emulate_vold_app_data_label">模拟Vold应用数据隔离</string>
-  <string id="custom_sus_path_label">自定义SUS路径</string>
-  <string id="custom_sus_path_loop_label">自定义SUS路径Loop</string>
-  <string id="custom_sus_maps_label">自定义SUS映射</string>
-  <string id="custom_sus_mount_label">自定义SUS挂载</string>
+  <string id="avc_log_spoofing_label">伪装 AVC 日志</string>
+  <string id="emulate_vold_app_data_label">模拟 Vold 应用数据隔离</string>
+  <string id="custom_sus_path_label">自定义 SUS 路径</string>
+  <string id="custom_sus_path_loop_label">自定义 SUS 路径 Loop</string>
+  <string id="custom_sus_maps_label">自定义 SUS 映射</string>
+  <string id="custom_sus_mount_label">自定义 SUS 挂载</string>
   <string id="custom_try_umount_label">自定义尝试卸载</string>
   <string id="custom_sus_open_redirect_label">自定义开放重定向</string>
 
   <!-- Credits -->
-  <string id="contrib_label">贡献者：</string>
-  <string id="translators_label">翻译人员：</string>
+  <string id="contrib_label">贡献者</string>
+  <string id="translators_label">翻译者</string>
+
+  <!-- New strings -->
+  <string id="set_stock_kernel_build_date_label">使用原厂内核构建日期</string>
+  <string id="emulate_vold_app_data_sus_path_loop_label">使用 SUS 路径 Loop</string>
+  <string id="custom_sus_feature_select_label">自定义 SUSFS 功能</string>
+  <string id="custom_sus_feature_editor_label">自定义功能内容</string>
+  <string id="sus_path_loop_label">SUS 路径 LOOP</string>
+  <string id="sus_open_redirect_label">开放重定向</string>
+  <string id="edit_kstat_entry_label">编辑 SUS_KSTAT 条目</string>
+  <string id="add_kstat_entry_label">添加 SUS_KSTAT 条目</string>
+  <string id="kstat_path_label">路径</string>
+  <string id="custom_sus_kstat_label">自定义 SUS_KSTAT</string>
+  <string id="del_path_label">要删除的路径：</string>
+  <string id="import_config_label">导入配置</string>
+  <string id="import_warning_label">导入配置会覆盖当前设置。确定要继续吗？</string>
+  <string id="import_backup_label">先备份当前配置</string>
 </language>

@@ -17,6 +17,7 @@
   <string id="send_logs_label">Send Logs</string>
   <string id="export_config_label">Export Config</string>
   <string id="reset_config_label">Reset All Config</string>
+  <string id="close_label">Close</string>
 
   <!-- SUSFS Not supported error-->
   <string id="susfs_error_label">NUH UH! Unsupported Kernel!</string>
@@ -81,6 +82,7 @@
   <string id="post_fs_data_label">Execute on post-fs-data (spoofs better)</string>
   <string id="uname_warning_label2">Setting this on may cause a bootloop or instability if spoofed incorrectly. Are you sure you want to enable post-fs-data execution?</string>
   <string id="reset_warning_label">This will reset all configurations to their default values. Are you sure you want to proceed?</string>
+  <string id="danger_zone_label">Danger Zone</string>
 
   <!-- Custom -->
   <string id="custom_settings_label">Custom Settings</string>
