@@ -16,15 +16,17 @@
    1. 颜色与基础变量
    --------------------------------------------------------------------------- */
 :root {
-	/* 深色模式（默认） */
-	--sx-bg: #1a1a1a;              /* 页面背景 */
-	--sx-surface: #232323;         /* 卡片表面 */
-	--sx-surface-2: #2b2b2b;       /* 输入框 / 次级表面 */
-	--sx-border: #383838;          /* 描边 */
+	/* 深色模式（默认）：偏青蓝的冷色调，不用纯黑、不用纯灰 */
+	--sx-bg: #0f1a1e;              /* 页面背景：深青蓝 */
+	--sx-surface: #16262c;         /* 卡片表面：青蓝玻璃感 */
+	--sx-surface-2: #1d3138;       /* 输入框 / 次级表面 */
+	--sx-border: #26454e;          /* 描边：青灰 */
 	--sx-text: #e0e0e0;            /* 正文 */
-	--sx-text-dim: #9e9e9e;        /* 次要文字 */
-	--sx-primary: #5aa9f0;         /* 主色：柔和蓝 */
-	--sx-primary-strong: #7bbcff;  /* 主色 hover */
+	--sx-text-dim: #93aeb6;        /* 次要文字：略带青调 */
+	--sx-primary: #4dd0e1;         /* 主色：青蓝 */
+	--sx-primary-strong: #6fdfee;  /* 主色 hover */
+	--sx-accent: #26c6da;          /* 强调色：青 */
+	--sx-on-primary: #06212a;      /* 主色之上的文字色 */
 	--sx-success: #4ac48a;         /* 成功：柔和绿 */
 	--sx-danger: #e05a5a;          /* 危险 */
 	--sx-shadow: 0 1px 3px rgb(0 0 0 / 0.4), 0 1px 2px rgb(0 0 0 / 0.3);
@@ -33,17 +35,19 @@
 	color-scheme: dark;
 }
 
-/* 系统浅色偏好 → 浅色配色 */
+/* 系统浅色偏好 → 浅色配色（同样保持青蓝色调） */
 @media (prefers-color-scheme: light) {
 	:root {
-		--sx-bg: #f5f5f5;
+		--sx-bg: #eef6f8;
 		--sx-surface: #ffffff;
-		--sx-surface-2: #eeeeee;
-		--sx-border: #dcdcdc;
+		--sx-surface-2: #e3eef1;
+		--sx-border: #c6dbe0;
 		--sx-text: #212121;
-		--sx-text-dim: #616161;
-		--sx-primary: #2f7fd6;
-		--sx-primary-strong: #1f6cbd;
+		--sx-text-dim: #4e6b73;
+		--sx-primary: #0097a7;
+		--sx-primary-strong: #00838f;
+		--sx-accent: #26c6da;
+		--sx-on-primary: #ffffff;
 		--sx-success: #2e9e6b;
 		--sx-danger: #c94040;
 		--sx-shadow: 0 1px 3px rgb(0 0 0 / 0.12), 0 1px 2px rgb(0 0 0 / 0.08);
@@ -175,7 +179,11 @@ h6 {
 	display: none !important;
 }
 
-/* 去掉所有过渡与动画（仅保留加载指示器自身的转动，它表示「正在更新」的进度状态） */
+/* 默认关闭「大范围」过渡：原打包样式给按钮/徽章/弹窗等声明了一长串
+   transition-property（color,background-color,border-color,box-shadow,
+   transform,filter,backdrop-filter...），属性过多会导致每次交互都要重算，
+   在 WebView 里表现为卡顿。这里先全局关掉，再在下面「第 4.1 节」按需
+   只给 opacity / transform 打开平滑过渡。 */
 *,
 *::before,
 *::after {
@@ -262,6 +270,15 @@ div[class*="hover:scale-105"] {
 /* ---------------------------------------------------------------------------
    4. 背景与容器
    --------------------------------------------------------------------------- */
+/* 关键：连 <html> 根元素一起刷成应用底色。
+   打包样式里有 `:root,[data-theme]{ background-color: var(--fallback-b1, ...) }`，
+   浅色主题下 --fallback-b1 是 #ffffff；整页跳转（index → custom → status）时，
+   新文档在 body 样式生效前会先露出根元素背景，这就是切换瞬间「白闪 + 生硬」的
+   来源之一。把根元素也固定成应用底色，页面切换就是同色衔接，不再闪白。 */
+html {
+	background-color: var(--sx-bg) !important;
+}
+
 body {
 	background-color: var(--sx-bg);
 	background-image: none;
@@ -276,6 +293,98 @@ main {
 }
 
 /* ---------------------------------------------------------------------------
+   4.1 界面切换的平滑过渡
+   ---------------------------------------------------------------------------
+   现状：WebUI 是多页面应用（index.html / custom.html / status.html /
+   credits.html），点按钮是整页跳转。浏览器默认「白闪 + 瞬间替换」，
+   所以在 WebView 里表现为生硬、像卡了一下。
+
+   做法（纯 CSS，零 JS 改动）：
+     · 新页面内容淡入 + 极轻微上移，150–200ms，符合用户要求的区间；
+     · 只动 opacity 与 transform —— 这两个属性由合成器处理，不触发重排
+       （layout）与重绘（paint），因此不会卡顿；
+     · 明确不碰 width / height / margin / top / left 等会引起重排的属性。
+
+   注意：这里用 @keyframes 而不是 transition。整页跳转时元素是「新插入」
+   的，没有「旧状态 → 新状态」的变化，transition 不会触发；动画则会在元素
+   首次渲染时自动播放，才能得到淡入效果。
+   --------------------------------------------------------------------------- */
+@keyframes sx-page-in {
+	from {
+		opacity: 0;
+		transform: translateY(6px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes sx-dialog-in {
+	from {
+		opacity: 0;
+		transform: scale(0.97);
+	}
+	to {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+/* 页面内容淡入 */
+main {
+	animation: sx-page-in 180ms ease-out both;
+}
+
+/* 弹窗打开：遮罩淡入 + 弹窗轻微放大；只动 opacity / transform */
+.modal[open] {
+	animation: sx-page-in 150ms ease-out both;
+}
+
+.modal[open] .modal-box {
+	animation: sx-dialog-in 180ms ease-out both;
+}
+
+/* 交互反馈的平滑过渡：只允许这两类轻量属性，替代原样式那一长串
+   transition-property。用于按钮 hover、输入框聚焦、开关切换等状态变化。 */
+.btn,
+.input,
+.select,
+.textarea,
+.checkbox,
+.badge,
+.grid > div[class*="rounded-lg"] {
+	transition:
+		background-color 150ms ease-out,
+		border-color 150ms ease-out,
+		color 150ms ease-out,
+		opacity 150ms ease-out,
+		transform 150ms ease-out !important;
+}
+
+/* 开关的滑块位移：只过渡 transform（合成器处理，不重排） */
+.toggle::after {
+	transition: transform 150ms ease-out !important;
+}
+
+/* 尊重系统「减弱动态效果」设置 */
+@media (prefers-reduced-motion: reduce) {
+	main,
+	.modal[open],
+	.modal[open] .modal-box,
+	.btn,
+	.input,
+	.select,
+	.textarea,
+	.checkbox,
+	.badge,
+	.toggle::after {
+		animation: none !important;
+		transition: none !important;
+	}
+}
+
+/* ---------------------------------------------------------------------------
    5. 卡片（原 .stats 容器）
    --------------------------------------------------------------------------- */
 .stats {
@@ -284,6 +393,49 @@ main {
 	border-radius: var(--sx-radius) !important;
 	box-shadow: var(--sx-shadow);
 	padding: 4px 6px;
+}
+
+/* ---------------------------------------------------------------------------
+   ★ 去掉「选项左边的白线」
+   ---------------------------------------------------------------------------
+   白线的真正来源（不是我们加的，也不是 border-left 工具类）：
+   打包样式 index-WyG3q1ly.css 里，daisyUI 的 .stats 组件给「同级的每个 .stat
+   子项」画了一条竖向分隔线，规则原文是：
+
+     :where(.stats)>:not([hidden])~:not([hidden]){
+       --tw-divide-x-reverse: 0;
+       border-right-width: calc(1px * var(--tw-divide-x-reverse));
+       border-left-width:  calc(1px * calc(1 - var(--tw-divide-x-reverse)));
+       --tw-divide-y-reverse: 0;
+       border-top-width:    calc(0px * var(--tw-divide-y-reverse));
+       border-bottom-width: calc(0px * var(--tw-divide-y-reverse));
+     }
+     .stats>*:not([hidden])~*:not([hidden]){ --tw-divide-x-reverse: 1 }
+
+   两处配合后：--tw-divide-x-reverse=1 → border-left-width = 1px × (1-1) = 0，
+   border-right-width = 1px × 1 = 1px。也就是**每个 stat 子项（除第一个外）
+   的右侧**被画了 1px 竖线。
+   线的颜色来自 .stat 的 border-color:
+     .stat{ border-color: var(--fallback-bc, oklch(var(--bc)/var(--tw-border-opacity)));
+            --tw-border-opacity: .1 }
+   浅色主题下 --fallback-bc 是 #1f2937 偏深，但在深色配色 + 半透明叠加下，
+   这条 1px 线在青蓝色卡片上呈现为一条刺眼的浅色/白色竖线 —— 就是用户看到
+   「选项左边那条白线」（视觉上落在右侧子项的左侧）。
+
+   处理：把 .stats 直接子项的边框宽度清零，只保留卡片容器自己的一圈描边。
+   用 !important 是因为原规则带 :where()（零特异性）但用了后代选择器，
+   这里直接命中子项，优先级更高；且 .stats 内部只有 stat 内容，无其它描边需求。
+   --------------------------------------------------------------------------- */
+.stats > * {
+	border-width: 0 !important;
+	border-style: none !important;
+}
+
+/* 顺带去掉 .stat 自带的左右大内边距：它原本是为「竖线分隔」留的呼吸位，
+   现在没有竖线了，让内容与卡片对齐、更整齐 */
+.stat {
+	padding-left: 0 !important;
+	padding-right: 0 !important;
 }
 
 /* 统计页四项指标卡（SUS 路径 / SUS 映射 / SUS 挂载 / 尝试卸载） */
@@ -353,7 +505,9 @@ main {
 	border-color: var(--sx-primary) !important;
 }
 
-/* 圆形滑块 */
+/* 圆形滑块。
+   位置只由 transform: translateX() 驱动（不用 left/top 之类会引起重排的属性），
+   这样开关切换是合成器层面的平滑位移，不会卡顿。 */
 .toggle::after {
 	content: "";
 	position: absolute;
@@ -363,13 +517,13 @@ main {
 	width: 1.125rem;
 	border-radius: 50%;
 	background-color: #ffffff;
-	transform: translateY(-50%);
+	transform: translate(0, -50%);
 	box-shadow: 0 1px 2px rgb(0 0 0 / 0.35);
 }
 
 .toggle:checked::after,
 .toggle[aria-checked="true"]::after {
-	left: calc(100% - 1.125rem - 2px);
+	transform: translate(calc(3rem - 1.125rem - 4px), -50%);
 }
 
 .toggle:hover {
@@ -432,7 +586,7 @@ main {
 .btn-primary {
 	background-color: var(--sx-primary) !important;
 	border-color: var(--sx-primary) !important;
-	color: #0d0d0d !important;
+	color: var(--sx-on-primary) !important;
 }
 
 .btn-primary:hover {
